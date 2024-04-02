@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/Assets/css/index.css" rel="stylesheet" type="text/css">
+    <title>JOC</title>
+</head>
+
+<body>
+    {{$isconnected := .IsConnected}}
+    <div class="header">
+        <h1>JOCommunity</h1>
+        {{ if not .IsConnected}}
+        <a href="/connection" class="login">
+            <p>SE CONNECTER</p>
+            <img src="../Assets/img/user.png">
+        </a>
+        {{else}}
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil/{{.CurrentUser.Id}}">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src="{{.CurrentUser.Image}}">
+                </div>
+            </a>
+        </div>
+        {{end}}
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+
+        <div class="search-container" method="GET">
+            <i class="fa fa-search">
+                <img src="../Assets/img/loupe (2).png">
+            </i>
+            <input class="search-input" id="searchInput" type="text" placeholder="Rechercher..." name="recherche">
+            <i class="fa fa-times"><img src="../Assets/img/signe-de-la-croix.png"></i>
+        </div>
+        
+        <ul class="content-categories" id="itemList">
+            {{ range .Categories }}
+            <li><a href="/topic/{{.Id}}" class="categories"><img src="{{.Image}}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+        
+        {{if .IsConnected}}
+        <a href="/createcategory" class="create-categories">
+            <img src="../Assets/img/categories.png">
+        </a>
+        {{else}}
+        <a href="/connection" class="create-categories">
+            <img src="../Assets/img/categories.png">
+        </a>
+        {{end}}
+    </div>
+
+    <div id="fullpage" onclick="this.style.display='none';"></div>
+
+    <div class="post-container">
+        {{ range .Posts }}
+        <div class="post">
+            <div class="header-post">
+                <a class="user" href="/profil/{{.User.Id}}">
+                    <div class="container-profil-img-post">
+                        <img src=".{{.User.Image}}">
+                    </div>
+                    <p>{{.User.Pseudo}}</p>
+                </a>
+                <div class="more-post">
+                    <h3><a href="/topic/{{.Category.Id}}">{{ .Category.Title}}</a></h3>
+                    {{if .IsMine}}
+                    <a href="/edit/{{.Id}}"><img src="../Assets/img/trois-points-plus-indicateur.png"></a>
+                    {{end}}
+                </div>
+            </div>
+            <div class="content-post">
+                <h1>{{ .Title }}</h1>
+                <p>{{ .Content }}</p>
+                <img id="postImage" src="{{.Image}}">
+            </div>
+            <div class="footer-post">
+                <div class="com-post">
+                    <a href="/commentaire/{{.Id}}"><img src="../Assets/img/Rectangle 14.png"></a>
+                    <p>{{.Comment}}</p>
+                </div>
+                <div class="like-post">
+                        {{if $isconnected}}
+                        <button id="Likes{{.Id}}" value="{{.Id}}" name="likes" onclick="Like(this)">
+                            {{if .IsLiked}}
+                                <img id="like" class="fade-in" src="../Assets/img/likes.png">
+                            {{else}}
+                                 <img id="like" class="fade-in" src="../Assets/img/trending-topic 1.png">   
+                            {{end}}
+                        </button>
+                            <p id="nbLikes{{.Id}}">{{.Likes}}</p>
+                        {{else}}
+                            <a href="/connection"><img src="../Assets/img/trending-topic 1.png"></a>
+                            <p>{{.Likes}}</p>
+                        {{end}}
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+    {{if .IsConnected}}
+    <a id="submit" href="/create" class="glow-on-hover"><img src="../Assets/img/plus (1).png"></a>
+    {{else}}
+    <a id="submit" href="/connection" class="glow-on-hover"><img src="../Assets/img/plus (1).png"></a>
+    {{end}}
+
+    <script src="../Assets/js/searchBar.js"></script> 
+    <script src="../Assets/js/search.js"></script> 
+    <script src="../Assets/js/likes.js"></script> 
+    <script src="../Assets/js/fullscreenimg.js"></script>
+    <script src="../Assets/js/changecolorCreatedTemplates.js"></script>
+</body>
+</html>

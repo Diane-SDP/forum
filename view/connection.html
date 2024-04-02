@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link href="/Assets/css/connection.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <a href="/" class="header">
+        <h1>JOCommunity</h1>
+        <div class="logoJOC"><img src="../Assets/img/burn.png"></div>
+    </a>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="/signup" method="post">
+                <h1>Inscription</h1>
+                <div class="social-container">
+                    <a href="#"><img src="../Assets/img/googleLogo.png"></a>
+                </div>
+                <div id="usernameErrorSignUp" class="error-message"></div>
+                <div id="mailError" class="error-message"></div>
+                <input required="true" type="text" id="username" name="username" placeholder="Pseudo" autocomplete="off">
+                <input required="true" type="password" id="password" name="password" placeholder="Mot de passe" autocomplete="off">
+                <input required="true" type="email" id="email" name="email" placeholder="Email">
+                <input type="submit" value="S'inscrire">
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="/login" method="post">
+                <h1>Connexion</h1>
+                <div class="social-container">
+                    <a href="#"><img src="../Assets/img/googleLogo.png"></a>
+                </div>
+                <div id="usernameError" class="error-message"></div>
+                <div id="passwordError" class="error-message"></div>
+                <input required="true" type="text" id="usernameLog" name="usernameLog" placeholder="Pseudo">
+                <input required="true" type="password" id="passwordLog" name="passwordLog" placeholder="Mot de passe">
+                <input type="submit" value="Se connecter">
+                <span>Mot de passe oublié ?</span>
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back !</h1>
+                    <p>Déjà inscrit ? <br>
+                    Connecte toi</p>
+                    <button class="ghost" id="signIn">Connexion</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend !</h1>
+                    <p>Pas encore inscrit ?
+                        <br> Créé ton compte
+                    </p>
+                    <button class="ghost" id="signUp">inscription</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <script src="../Assets/js/connection.js"></script>
+</body>
+</html>

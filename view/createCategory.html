@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/createCategory.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil/{{.CurrentUser.Id}}">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src=".{{.CurrentUser.Image}}">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+
+        
+    </div>
+
+    <form action="/postcategory" method="post" enctype="multipart/form-data" class="category">
+        <div class="form-category">
+            <input class="title-category" type="text" id="titleInput" name="titleInput" placeholder="NOM DE LA CATEGORIE" maxlength="20" required>
+            
+            <textarea class="des-category" type="text" id="descriptionInput" name="descriptionInput" maxlength="240" placeholder="Description..." required></textarea>
+        </div>
+
+        <div class="right-container">
+            <input type="file" id="mediaInput" name="mediaInput" class="none"  accept="image/*" required>
+            <label for="mediaInput" id="uploadedImage" class="img-post">
+                <img src="../Assets/img/Rectangle 12.png" alt="Placeholder Image">
+            </label>
+            <button type="submit" id="submit" class="glow-on-hover"><img src="../Assets/img/nouvelle-discussion.png"></button>
+        </div>
+    </form>
+
+    <script src="../Assets/js/uploadImgCategory.js"></script>
+    <script src="../Assets/js/changecolorCreatedTemplates.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/changeprofil.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src="{{.Image}}">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+
+        <div class="search-container" method="GET">
+            <i class="fa fa-search">
+                <img src="../Assets/img/loupe (2).png">
+            </i>
+            <input class="search-input" id="searchInput" type="text" placeholder="Rechercher..." name="recherche">
+            <i class="fa fa-times"><img src="../Assets/img/signe-de-la-croix.png"></i>
+        </div>
+        
+        <ul class="content-categories" id="itemList">
+        
+        </ul>
+    </div>
+    
+    <div class="settings-user">
+        <form action="" method="post" enctype="multipart/form-data" class="form-photo">
+            <label for="img" class="profilepic" >
+                <img id="uploadedImage" class="profilepic_image" src="{{.Image}}">
+                <div class="profilepic_content">
+                    <img src="../Assets/img/changer-de-camera (1).png">
+                    <span class="profilepic_text">Edit Profile</span>
+                </div>
+            </label>
+            <input type="file" id="img" name="img" class="none" accept="image/*">
+
+            <button type="submit">Valider</button>
+            <button type="submit" value="./Assets/img/user.png" name="photo">Effacer</button>
+        </form>
+        
+        <form action="/changeprofil" method="post" class="form-pseudo">
+            <h1>{{.Pseudo}}</h1> 
+            <div class="header-bio">
+                <input name="changename"type="text" required autocomplete="off" placeholder="Nouveau pseudo">
+                <button type="submit"><img src="../Assets/img/crayon.png"></button>
+            </div>
+        </form>
+            
+        <form action="/changeprofil" method="post" class="form-bio">
+            <h4>Biographie</h4>
+            <div class="header-bio">   
+                <textarea class="bio-user" type="text" autocomplete="off" name="biographie" maxlength="100">{{.Bio}}</textarea>
+                <button type="submit"><img src="../Assets/img/crayon.png"></button>
+            </div>
+        </form>
+
+        <form action="/changeprofil" method="post" class="form-password">
+            <h3>Mot de passe actuel</h3>
+            <div class="header-bio">
+                <input type="text" name="psd" autocomplete="off" required placeholder="Mot de passe">
+            </div>
+            <h3>Modifier votre mot de passe</h3>
+            <div class="mdp">
+                <input type="text" name="changepsd" autocomplete="off" required placeholder="Nouveau mot de passe">
+                <button type="submit"><img src="../Assets/img/crayon.png"></button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../Assets/js/changeprofilImg.js"></script>
+    <script src="../Assets/js/changecolor.js"></script>
+
+</body>
+</html>
+  

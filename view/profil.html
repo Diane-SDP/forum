@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/profil.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        {{ if not .IsConnected}}
+        <a href="/connection" class="login">
+            <p>SE CONNECTER</p>
+            <img src="../Assets/img/user.png">
+        </a>
+        {{else}}
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil/{{.CurrentUser.Id}}">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src=".{{.CurrentUser.Image}}">
+                </div>
+            </a>
+        </div>
+        {{end}}
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+   
+    </div>
+    
+    <div class="settings-user">
+        <div class="header-profil" id="header">
+            <h1>{{.User.Pseudo}}</h1> 
+            
+            <div class="bio-user">
+                <div class="header-bio">
+                    <h4>Biographie</h4>
+                </div>
+                <p type="text" name="biographie" maxlength="100">{{.User.Bio}}</p>
+            </div>
+            
+            <div class="profilepic">
+                <img src=".{{.User.Image}}">
+            </div>
+            {{if .IsMe}}
+            <a href="/changeprofil" class="icon-change" >
+                <img src="../Assets/img/crayon.png">
+            </a>
+            
+
+            <div class="couleurs-container">
+                <button class="blue" onclick="changeColor('#3983C3')"></button>
+                <button class="red" onclick="changeColor('#CD2C2C')"></button>
+                <button class="green" onclick="changeColor('#469C49')"></button>
+                <button class="yellow" onclick="changeColor('#EBC842')"></button>
+            </div>
+            {{end}}
+        </div>
+    </div>
+    
+    <div id="fullpage" onclick="this.style.display='none';"></div>
+    <div class="post-container">
+        {{ range .Posts }}
+        <div class="post">
+            <div class="header-post">
+                <div class="user">
+                    <div class="container-profil-img-post">
+                        <img src=".{{.User.Image}}">
+                    </div>
+                    <p>{{.User.Pseudo}}</p>
+                </div>
+                <div class="more-post">
+                    <h3><a href="/topic/{{.Category.Id}}">{{ .Category.Title}}</a></h3>
+                    {{if .IsMine}}
+                    <a href="/edit/{{.Id}}"><img src="../Assets/img/trois-points-plus-indicateur.png"></a>
+                    {{end}}
+                </div>
+            </div>
+            <div class="content-post">
+                <h1>{{ .Title }}</h1>
+                <p>{{ .Content }}</p>
+                <img id="postImage" src="{{.Image}}">
+            </div>
+            <div class="footer-post">
+                <div class="com-post">
+                    <a href="/commentaire/{{.Id}}"><img src="../Assets/img/Rectangle 14.png"></a>
+                    <p>{{.Comment}}</p>
+                </div>
+                <div class="like-post">
+                    <button id="Likes{{.Id}}" value="{{.Id}}" name="likes" onclick="Like(this)">
+                        {{if .IsLiked}}
+                            <img src="../Assets/img/likes.png">
+                        {{else}}
+                             <img src="../Assets/img/trending-topic 1.png">   
+                        {{end}}
+                    </button>
+                        <p id="nbLikes{{.Id}}">{{.Likes}}</p>
+                </div>
+            </div>
+        </div>
+        {{end}}
+    </div>
+    
+    <script src="../Assets/js/changecolorProfil.js"></script>
+    <script src="../Assets/js/likes.js"></script>
+    <script src="../Assets/js/fullscreenimg.js"></script>
+</body>
+</html>

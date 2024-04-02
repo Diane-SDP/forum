@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/edit.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src=".{{.Image}}">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+    </div>
+
+        <form action="/save" method="post" enctype="multipart/form-data"  class="post">
+            <div class="header-post">
+                <div class="user">
+                    <img src=".{{.Image}}">
+                    <p>{{.User.Pseudo}}</p>
+                </div>
+                <h3>{{.Category.Title}}</h3>
+            </div>
+        
+            <div class="form-post">
+                <input class="title-post" type="text" id="titleInput" name="titleInput" maxlength="35" required value="{{.Title}}" >
+                <br>
+                <textarea class="text-post" type="text" id="contentInput" name="contentInput" required>{{.Content}}</textarea>
+                <div class="image-container">
+                    <button id="removeImage" class="remove-image"><img src="../Assets/img/signe-de-la-croix.png"></button>
+                    <img id="postImage" src=".{{.Image}}" alt="Image du post">
+                </div>
+            </div>
+            <div class="footer-post">  
+                <input type="file" id="mediaInput" name="mediaInput" class="none" accept="image/*" value="{{.Image}}">
+                <label for="mediaInput" class="img-post">
+                    <img src="../Assets/img/Rectangle 12.png" alt="Placeholder Image">
+                </label>
+                <input type="hidden" name="id" value="{{.Id}}">
+                <button type="submit" id="submit" class="glow-on-hover"><img src="../Assets/img/Rectangle 9.png"></button>
+            </div>
+        </form>
+
+    <script src="../Assets/js/uploadImgEdit.js"></script>
+    <script src="../Assets/js/uppertextarea.js"></script>
+    <script src="../Assets/js/changecolorCreatedTemplates.js"></script>
+    <script src="../Assets/js/fullscreenimg.js"></script>
+
+
+</body>
+</html>

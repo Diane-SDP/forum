@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/create.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil/{{.CurrentUser.Id}}">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src=".{{.CurrentUser.Image}}">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+    </div>
+
+        <form action="/post" method="post" enctype="multipart/form-data" id="post" class="post">
+            <div class="header-post">
+                <div class="user">
+                    <img src=".{{.CurrentUser.Image}}">
+                    <p>{{.CurrentUser.Pseudo}}</p>
+                </div>
+            
+                <select class="categories-post" name="posts-category" id="post-category">
+                    {{ range .Categories }}
+                    <option value="{{ .Id }}">{{ .Title }}</option>
+                    {{ end }}
+                </select>
+            </div>
+        
+            <div class="form-post">
+                <input class="title-post" type="text" id="titleInput" name="titleInput" placeholder="TITRE" maxlength="35" required>
+                <br>
+                <textarea class="text-post" type="text" id="contentInput" name="contentInput" placeholder="Ecris ton message..." required></textarea>
+                <div class="image-container">
+                    <button id="removeImage" class="remove-image"><img src="../Assets/img/signe-de-la-croix.png"></button>
+                    <img id="uploadedImage">
+                </div>
+            </div>
+            <div class="footer-post">
+                <input type="file" id="mediaInput" name="mediaInput" class="none" accept="image/*">
+                <label for="mediaInput" class="img-post">
+                    <img src="../Assets/img/Rectangle 12.png" alt="Placeholder Image">
+                </label>
+                <button type="submit" id="submit" class="glow-on-hover"><img src="../Assets/img/Rectangle 9.png"></button>
+            </div>
+        </form>
+
+    <script src="../Assets/js/autoselectCategory.js"></script>
+    <script src="../Assets/js/uploadImg.js"></script>
+    <script src="../Assets/js/uppertextarea.js"></script>
+    <script src="../Assets/js/changecolorCreatedTemplates.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOC</title>
+    <link href="/Assets/css/notfound.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <h1>JOCommunity</h1>
+        {{ if not .IsConnected}}
+        <a href="/connection" class="login">
+            <p>SE CONNECTER</p>
+            <img src="../Assets/img/user.png">
+        </a>
+        {{else}}
+        <div class="loginsucess">
+            <a href="/deco">
+                <p>SE DECONNECTER</p>
+            </a>
+            <a href="/profil/{{.CurrentUser.Id}}">
+                <p>MON PROFIL</p>
+                <div class="container-profil-img">
+                    <img src="{{.CurrentUser.Image}}">
+                </div>
+            </a>
+        </div>
+        {{end}}
+    </div>
+
+    <div class="menuboard" id="menuboard">
+        <div class="logoJOC"><a href="/"><img src="../Assets/img/burn.png"></a></div>
+    </div>
+
+    
+    
+
+    <section class="error-container">
+        <p>Erreur 404, page non trouvée :(</p>
+        <span><span>4</span></span>
+        <span>0</span>
+        <span><span>4</span></span>
+    </section>
+
+    <script src="../Assets/js/changecolor.js"></script>
+</body>
+</html>
