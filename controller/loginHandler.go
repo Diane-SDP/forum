@@ -2,16 +2,16 @@ package controllers
 
 import (
 	"crypto/md5"
-	"database/sql"
 	"encoding/hex"
+	models "forum/model"
 	"log"
 	"net/http"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/login" { // Si l'URL n'est pas la bonne
-		NotFound(w, r, http.StatusNotFound, db) // On appelle notre fonction NotFound
-		return                              // Et on arrête notre code ici !
+		NotFound(w, r, http.StatusNotFound) // On appelle notre fonction NotFound
+		return                                         // Et on arrête notre code ici !
 	}
 	// Récupérer les données du formulaire
 	username := r.FormValue("usernameLog")
@@ -21,14 +21,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	h.Write([]byte(password))
 	passwordHash := hex.EncodeToString(h.Sum(nil))
 
-	rows, err := db.Query("SELECT uuid,password FROM users WHERE username = ?", username)
+	rows, err := models.DB.Query("SELECT uuid,password FROM users WHERE username = ?", username)
 	if err != nil {
 		http.Error(w, "Erreur lors de la connexion", http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
 	defer rows.Close()
-	
+
 	var passwordDB string
 	var uuidUser string
 	for rows.Next() {
@@ -49,11 +49,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		http.Redirect(w, r, "/connection?error=badpassword", http.StatusSeeOther)
 		return
 	}
-		
 
 	http.SetCookie(w, &http.Cookie{
 		Name:  "user",
 		Value: uuidUser,
+		MaxAge: 3600,
 	})
 	http.Redirect(w, r, "/loginsuccess", http.StatusSeeOther)
 }

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/Assets/css/index.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Assets/img/burn.png">
     <title>JOC</title>
 </head>
 
@@ -90,7 +91,7 @@
                     <p>{{.Comment}}</p>
                 </div>
                 <div class="like-post">
-                        {{if $isconnected}}
+                    {{if $isconnected}}
                         <button id="Likes{{.Id}}" value="{{.Id}}" name="likes" onclick="Like(this)">
                             {{if .IsLiked}}
                                 <img id="like" class="fade-in" src="../Assets/img/likes.png">

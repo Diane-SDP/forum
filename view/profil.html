@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOC</title>
+    <title>Profil</title>
     <link href="/Assets/css/profil.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Assets/img/burn.png">
 </head>
 <body>
+    {{$isconnected := .IsConnected}}
     <div class="header">
         <h1>JOCommunity</h1>
         {{ if not .IsConnected}}
@@ -85,7 +87,7 @@
             <div class="content-post">
                 <h1>{{ .Title }}</h1>
                 <p>{{ .Content }}</p>
-                <img id="postImage" src="{{.Image}}">
+                <img id="postImage" src=".{{.Image}}">
             </div>
             <div class="footer-post">
                 <div class="com-post">
@@ -93,15 +95,21 @@
                     <p>{{.Comment}}</p>
                 </div>
                 <div class="like-post">
-                    <button id="Likes{{.Id}}" value="{{.Id}}" name="likes" onclick="Like(this)">
-                        {{if .IsLiked}}
-                            <img src="../Assets/img/likes.png">
+                    {{if $isconnected}}
+                        <button id="Likes{{.Id}}" value="{{.Id}}" name="likes" onclick="Like(this)">
+                            {{if .IsLiked}}
+                                <img id="like" class="fade-in" src="../Assets/img/likes.png">
+                            {{else}}
+                                 <img id="like" class="fade-in" src="../Assets/img/trending-topic 1.png">   
+                            {{end}}
+                        </button>
+                            <p id="nbLikes{{.Id}}">{{.Likes}}</p>
                         {{else}}
-                             <img src="../Assets/img/trending-topic 1.png">   
+                            <a href="/connection"><img src="../Assets/img/trending-topic 1.png"></a>
+                            <p>{{.Likes}}</p>
                         {{end}}
-                    </button>
-                        <p id="nbLikes{{.Id}}">{{.Likes}}</p>
                 </div>
+                
             </div>
         </div>
         {{end}}

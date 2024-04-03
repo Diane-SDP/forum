@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOC</title>
+    <title>Profil</title>
     <link href="/Assets/css/changeprofil.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Assets/img/burn.png">
 </head>
 <body>
     <div class="header">
@@ -13,12 +14,13 @@
             <a href="/deco">
                 <p>SE DECONNECTER</p>
             </a>
-            <a href="/profil">
+            <a href="/profil/{{.Id}}">
                 <p>MON PROFIL</p>
                 <div class="container-profil-img">
                     <img src="{{.Image}}">
                 </div>
             </a>
+            
         </div>
     </div>
 
@@ -68,7 +70,7 @@
                 <button type="submit"><img src="../Assets/img/crayon.png"></button>
             </div>
         </form>
-
+        {{if not .IsGoogle}}
         <form action="/changeprofil" method="post" class="form-password">
             <h3>Mot de passe actuel</h3>
             <div class="header-bio">
@@ -80,6 +82,7 @@
                 <button type="submit"><img src="../Assets/img/crayon.png"></button>
             </div>
         </form>
+        {{end}}
     </div>
 
     <script src="../Assets/js/changeprofilImg.js"></script>

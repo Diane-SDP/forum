@@ -185,6 +185,24 @@ i.fa-search {
   border-radius: 100px
 }
 
+
+.login {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  right: 30px;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  font-size: 0.9em;
+}
+
+.login img {
+  margin-left: 10px;
+  width: 35px;
+}
+
 .blue-bg:after {
     background-color: #3983c3; 
 }

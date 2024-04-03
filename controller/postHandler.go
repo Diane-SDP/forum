@@ -1,16 +1,15 @@
 package controllers
 
 import (
-	"database/sql"
 	models "forum/model"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-func PostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func PostHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/post" { // Si l'URL n'est pas la bonne
-		NotFound(w, r, http.StatusNotFound, db) // On appelle notre fonction NotFound
+		NotFound(w, r, http.StatusNotFound) // On appelle notre fonction NotFound
 		return                              // Et on arrête notre code ici !
 	}
 	cookie, err := r.Cookie("user")
@@ -18,7 +17,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
 		return
 	}
-	idUser := models.GetIDFromUUID(cookie.Value, db)
+	idUser := models.GetIDFromUUID(cookie.Value)
 	titleInput := r.FormValue("titleInput")
 	contentInput := r.FormValue("contentInput")
 	categoryInput, _ := strconv.Atoi(r.FormValue("posts-category"))
@@ -29,7 +28,7 @@ func PostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		path = models.Upload(file, fileheader)
 	}
 
-	_, err = db.Exec("INSERT INTO posts (title, content, idUser, idCategory, image, likes) VALUES (?, ?, ?, ?, ?, ?)", titleInput, contentInput, idUser, categoryInput, path, 0)
+	_, err = models.DB.Exec("INSERT INTO posts (title, content, idUser, idCategory, image, likes) VALUES (?, ?, ?, ?, ?, ?)", titleInput, contentInput, idUser, categoryInput, path, 0)
 	if err != nil {
 		http.Error(w, "Erreur lors de la publication du post", http.StatusInternalServerError)
 		log.Println(err)

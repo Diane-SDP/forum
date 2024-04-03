@@ -1,12 +1,11 @@
 package models
 
 import (
-	"database/sql"
 	"fmt"
 )
 
-func CountComment(idpost int, db *sql.DB) string {
-	query, err := db.Prepare("SELECT COUNT(*) FROM comment WHERE idPost = ?")
+func CountComment(idpost int) string {
+	query, err := DB.Prepare("SELECT COUNT(*) FROM comment WHERE idPost = ?")
 	if err != nil {
 		fmt.Printf("%s", err)
 	}

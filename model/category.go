@@ -1,8 +1,6 @@
 package models
 
 import (
-	"database/sql"
-	"log"
 	"strconv"
 )
 
@@ -13,8 +11,8 @@ type Category struct {
 	Id    string
 }
 
-func GetCategories(db *sql.DB) ([]Category, error) {
-	rows, err := db.Query("SELECT id, title, description, image FROM categories")
+func GetCategories() ([]Category, error) {
+	rows, err := DB.Query("SELECT id, title, description, image FROM categories")
 	if err != nil {
 		return nil, err
 	}
@@ -39,10 +37,10 @@ func GetCategories(db *sql.DB) ([]Category, error) {
 	return categories, nil
 }
 
-func GetCategory(id int, db *sql.DB) Category {
-	rows, err := db.Query("SELECT title, description, image FROM categories WHERE id = ?", id)
+func GetCategory(id int) Category {
+	rows, err := DB.Query("SELECT title, description, image FROM categories WHERE id = ?", id)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer rows.Close()
 	var title string
@@ -51,7 +49,7 @@ func GetCategory(id int, db *sql.DB) Category {
 	for rows.Next() {
 		err := rows.Scan(&title, &description, &pathImg)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 	}
 	var category Category

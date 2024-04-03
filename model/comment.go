@@ -1,20 +1,15 @@
 package models
 
-import (
-	"database/sql"
-	"log"
-)
-
 type Comment struct {
 	Content string
 	User    User
 	Id      int
 }
 
-func GetComment(idpost int, db *sql.DB) []Comment {
-	rows, err := db.Query("SELECT id, idUser, commentaire FROM comment WHERE idPost = ?", idpost)
+func GetComment(idpost int) []Comment {
+	rows, err := DB.Query("SELECT id, idUser, commentaire FROM comment WHERE idPost = ?", idpost)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer rows.Close()
 	var commentaire []Comment
@@ -23,9 +18,9 @@ func GetComment(idpost int, db *sql.DB) []Comment {
 		var com Comment
 		err := rows.Scan(&com.Id, &iduser, &com.Content)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
-		user := GetUser(iduser, db)
+		user := GetUser(iduser)
 		com.User = user
 		commentaire = append(commentaire, com)
 	}

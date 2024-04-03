@@ -1,16 +1,14 @@
 package controllers
 
 import (
-	"database/sql"
 	models "forum/model"
 	"html/template"
-	"log"
 	"net/http"
 )
 
-func CreateCategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func CreateCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/createcategory" { // Si l'URL n'est pas la bonne
-		NotFound(w, r, http.StatusNotFound, db) // On appelle notre fonction NotFound
+		NotFound(w, r, http.StatusNotFound) // On appelle notre fonction NotFound
 		return                              // Et on arrête notre code ici !
 	}
 	tmpl, err := template.ParseFiles("./view/createCategory.html")
@@ -21,10 +19,10 @@ func CreateCategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	var data models.Data
 	cookie, err := r.Cookie("user")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	uuid := cookie.Value
-	data.CurrentUser = models.GetUser(models.GetIDFromUUID(uuid, db), db)
+	data.CurrentUser = models.GetUser(models.GetIDFromUUID(uuid))
 
 	err = tmpl.Execute(w, nil)
 	if err != nil {

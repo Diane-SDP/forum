@@ -195,6 +195,24 @@ i.fa-search {
     margin-left: 10px;
 }
 
+
+.login {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    right: 30px;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    font-size: 0.9em;
+}
+
+.login img {
+    margin-left: 10px;
+    width: 35px;
+}
+
 .loginsucess img {
     width: 100%;
     height: 100%;
@@ -303,7 +321,7 @@ i.fa-search {
   .couleurs-container {
     width: 100px;
     position: absolute;
-    right: 110px;
+    right: 15vh;
     top: 10px;
     display: flex;
     padding: 0%;
@@ -408,6 +426,8 @@ i.fa-search {
 .user {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: black;
 }
 
 .user p{

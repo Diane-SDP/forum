@@ -122,7 +122,7 @@ i.fa-search {
     width: 23px;
     height: 23px;
     margin-right: 8px;
-    padding-top: 2px;
+    border-radius: 6px;
 }
 
 .categories {
@@ -343,6 +343,8 @@ i.fa-search {
 .user {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: black;
 }
 
 .user p{
@@ -387,7 +389,6 @@ i.fa-search {
     margin-top: 5px;
     cursor: pointer;
 }
-
 
 .content-post p::-webkit-scrollbar {
     width: 3px;

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"database/sql"
 	models "forum/model"
 	"html/template"
 	"net/http"
@@ -9,7 +8,7 @@ import (
 	"strings"
 )
 
-func CommentaireHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func CommentaireHandler(w http.ResponseWriter, r *http.Request) {
 	type dataComment struct {
 		IdPost      int
 		CurrentUser models.User
@@ -25,29 +24,29 @@ func CommentaireHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		println("non connecté")
 	} else {
 		data.IsConnected = true
-		id = models.GetIDFromUUID(cookie.Value, db)
+		id = models.GetIDFromUUID(cookie.Value)
 	}
 	parts := strings.Split(r.URL.Path, "/")
 	idint, _ := strconv.Atoi(parts[len(parts)-1])
 	var exists bool
-	erreur := db.QueryRow("SELECT EXISTS(SELECT 1 FROM posts WHERE id = ?)", idint).Scan(&exists)
+	erreur := models.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM posts WHERE id = ?)", idint).Scan(&exists)
 	if erreur != nil {
 		panic(erreur)
 	}
 	if !exists { // Si l'URL n'est pas la bonne
-		NotFound(w, r, http.StatusNotFound, db) // On appelle notre fonction NotFound
+		NotFound(w, r, http.StatusNotFound) // On appelle notre fonction NotFound
 		return                              // Et on arrête notre code ici !
 	}
 
 	data.IdPost = idint
-	data.Lescoms = models.GetComment(idint, db)
-	data.Post = models.GetPost(idint, db)
+	data.Lescoms = models.GetComment(idint)
+	data.Post = models.GetPost(idint)
 	if data.IsConnected {
-		data.CurrentUser = models.GetUser(id, db)
-		data.Post.IsLiked = models.IsLikedBy(data.IdPost, models.GetIDFromUUID(cookie.Value, db), db)
-		data.Post.IsMine = models.IsMine(idint, cookie.Value, db)
+		data.CurrentUser = models.GetUser(id)
+		data.Post.IsLiked = models.IsLikedBy(data.IdPost, models.GetIDFromUUID(cookie.Value))
+		data.Post.IsMine = models.IsMine(idint, cookie.Value)
 	}
-	categories, _ := models.GetCategories(db)
+	categories, _ := models.GetCategories()
 	data.Categories = categories
 
 	tmpl, err := template.ParseFiles("./view/commentaire.html")

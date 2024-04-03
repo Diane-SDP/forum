@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	"database/sql"
 	models "forum/model"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-func SaveHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func SaveHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("titleInput")
 	content := r.FormValue("contentInput")
 	id := r.FormValue("id")
@@ -18,9 +17,9 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if err == nil {
 		path = models.Upload(file, fileheader)
 	} else {
-		path = models.GetPost(idint, db).Image
+		path = models.GetPost(idint).Image
 	}
-	_, err = db.Exec("UPDATE posts SET title = ?, content = ?, image = ? WHERE id = ?", title, content, path, idint)
+	_, err = models.DB.Exec("UPDATE posts SET title = ?, content = ?, image = ? WHERE id = ?", title, content, path, idint)
 	if err != nil {
 		log.Println(err)
 	}

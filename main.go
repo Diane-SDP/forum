@@ -3,31 +3,29 @@ package main
 import (
 	"database/sql"
 	controllers "forum/controller"
-	"log"
+	models "forum/model"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "database.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS users (
+	models.DB, _ = sql.Open("sqlite3", "database.db")
+	defer models.DB.Close()
+	_, err := models.DB.Exec(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT,
-        password TEXT,
-		bio TEXT,
+        password TEXT DEFAULT '',
+		bio TEXT DEFAULT '',
 		image TEXT DEFAULT './Assets/img/user.png',
         email TEXT,
-		uuid TEXT
+		uuid TEXT,
+		googleAccount INTEGER
     )`)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts (
+	_, err = models.DB.Exec(`CREATE TABLE IF NOT EXISTS posts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         content TEXT,
@@ -39,18 +37,18 @@ func main() {
 		FOREIGN KEY (idCategory) REFERENCES categories(id)
     )`)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS categories (
+	_, err = models.DB.Exec(`CREATE TABLE IF NOT EXISTS categories (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
 		image TEXT DEFAULT './Assets/img/categories.png',
         description TEXT
     )`)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS likes (
+	_, err = models.DB.Exec(`CREATE TABLE IF NOT EXISTS likes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         idUser INTEGER,
         idPost INTEGER,
@@ -60,10 +58,10 @@ func main() {
     )`)
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS comment (
+	_, err = models.DB.Exec(`CREATE TABLE IF NOT EXISTS comment (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
         idUser INTEGER,
         idPost INTEGER,
@@ -71,70 +69,33 @@ func main() {
     )`)
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	fs := http.FileServer(http.Dir("Assets"))
 	http.Handle("/Assets/", http.StripPrefix("/Assets", fs))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.HomeHandler(w, r, db)
-	})
+	http.HandleFunc("/", controllers.HomeHandler)
+	http.HandleFunc("/postcategory", controllers.CategoryHandler)
+	http.HandleFunc("/create", controllers.CreatePostHandler)
+	http.HandleFunc("/like/", controllers.LikedPostHandler)
+	http.HandleFunc("/loginsuccess", controllers.LoginSuccessHandler)
+	http.HandleFunc("/deco", controllers.DisconnectHandler)
+	http.HandleFunc("/topic/", controllers.TopicHandler)
+	http.HandleFunc("/edit/", controllers.EditHandler)
+	http.HandleFunc("/createcategory", controllers.CreateCategoryHandler)
+	http.HandleFunc("/post", controllers.PostHandler)
+	http.HandleFunc("/connection", controllers.ConnectionHandler)
+	http.HandleFunc("/signup", controllers.SignupHandler)
+	http.HandleFunc("/login", controllers.LoginHandler)
+	http.HandleFunc("/profil/", controllers.ProfilHandler)
+	http.HandleFunc("/changeprofil", controllers.ChangeProfilHandler)
+	http.HandleFunc("/commentaire/", controllers.CommentaireHandler)
+	http.HandleFunc("/createcommentaire/", controllers.CreateCommentHandler)
+	http.HandleFunc("/save", controllers.SaveHandler)
+	http.HandleFunc("/logingoogle", controllers.GoogleLoginHandler)
+	http.HandleFunc("/callback", controllers.HandleGoogleCallback)
 
-	http.HandleFunc("/postcategory", func(w http.ResponseWriter, r *http.Request) {
-		controllers.CategoryHandler(w, r, db)
-	})
-
-	http.HandleFunc("/create", func(w http.ResponseWriter, r *http.Request) {
-		controllers.CreatePostHandler(w, r, db)
-	})
-	http.HandleFunc("/like/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.LikedPostHandler(w, r, db)
-	})
-	http.HandleFunc("/loginsuccess", func(w http.ResponseWriter, r *http.Request) {
-		controllers.LoginSuccessHandler(w, r, db)
-	})
-	http.HandleFunc("/deco", func(w http.ResponseWriter, r *http.Request) {
-		controllers.DisconnectHandler(w, r, db)
-	})
-	http.HandleFunc("/topic/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.TopicHandler(w, r, db)
-	})
-	http.HandleFunc("/edit/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.EditHandler(w, r, db)
-	})
-	http.HandleFunc("/createcategory", func(w http.ResponseWriter, r *http.Request) {
-		controllers.CreateCategoryHandler(w, r, db)
-	})
-
-	http.HandleFunc("/post", func(w http.ResponseWriter, r *http.Request) {
-		controllers.PostHandler(w, r, db)
-	})
-	http.HandleFunc("/connection", func(w http.ResponseWriter, r *http.Request) {
-		controllers.ConnectionHandler(w, r, db)
-	})
-
-	http.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
-		controllers.SignupHandler(w, r, db)
-	})
-	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
-		controllers.LoginHandler(w, r, db)
-	})
-	http.HandleFunc("/profil/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.ProfilHandler(w, r, db)
-	})
-	http.HandleFunc("/changeprofil", func(w http.ResponseWriter, r *http.Request) {
-		controllers.ChangeProfilHandler(w, r, db)
-	})
-	http.HandleFunc("/commentaire/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.CommentaireHandler(w, r, db)
-	})
-	http.HandleFunc("/createcommentaire/", func(w http.ResponseWriter, r *http.Request) {
-		controllers.CreateCommentHandler(w, r, db)
-	})
-	http.HandleFunc("/save", func(w http.ResponseWriter, r *http.Request) {
-		controllers.SaveHandler(w, r, db)
-	})
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+	panic(http.ListenAndServe("localhost:8080", nil))
 
 }

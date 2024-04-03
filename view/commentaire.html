@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOC</title>
     <link href="/Assets/css/commentaire.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Assets/img/burn.png">
 </head>
 
 <body>
+    {{$isconnected := .IsConnected}}
     <div class="header">
         <h1>JOCommunity</h1>
         {{ if not .IsConnected}}
@@ -44,7 +46,7 @@
         
         <ul class="content-categories" id="itemList">
             {{ range .Categories }}
-            <li><a href="/topic/{{.Id}}" class="categories"><img src="../Assets/img/categories.png">{{ .Title }}</a></li>
+            <li><a href="/topic/{{.Id}}" class="categories"><img src=".{{.Image}}">{{ .Title }}</a></li>
             {{ end }}
         </ul>
         
@@ -59,12 +61,12 @@
     <div class="post-container">
         <div class="post">
             <div class="header-post">
-                <div class="user">
+                <a class="user" href="/profil/{{.Post.User.Id}}">
                     <div class="container-profil-img-post">
                         <img src=".{{.Post.User.Image}}">
                     </div>
                     <p>{{.Post.User.Pseudo}}</p>
-                </div>
+                </a>
                 <div class="more-post">
                     <h3><a href="/topic/{{.Post.Category.Id}}">{{ .Post.Category.Title}}</a></h3>
                     {{if .Post.IsMine}}
@@ -84,7 +86,9 @@
                     <img src="../Assets/img/Rectangle 14.png">
                     <p>{{ .Post.Comment}}</p>
                 </div>
+                
                 <div class="like-post">
+                    {{if $isconnected}}
                     <button id="Likes{{.Post.Id}}" value="{{.Post.Id}}" name="likes" onclick="Like(this)">
                         {{if .Post.IsLiked}}
                             <img id="like" class="fade-in" src="../Assets/img/likes.png">
@@ -93,6 +97,10 @@
                         {{end}}
                     </button>
                     <p id="nbLikes{{.Post.Id}}">{{.Post.Likes}}</p>
+                    {{else}}
+                    <a href="/connection"><img src="../Assets/img/trending-topic 1.png"></a>
+                        <p>{{.Post.Likes}}</p>
+                    {{end}}
                 </div>
             </div>
         </div>
@@ -119,12 +127,12 @@
         {{ range .Lescoms }}
         <div class="com">
             <div class="header-com">
-                <div class="user-com">
+                <a class="user-com" href="/profil/{{.User.Id}}">
                     <div class="container-profil-img-com">
                         <img src=".{{.User.Image}}">
                     </div>
                     <p>{{.User.Pseudo}}</p>
-                </div>
+                </a>
             </div>
 
             <div class="form-com">

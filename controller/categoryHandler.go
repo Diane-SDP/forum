@@ -1,16 +1,15 @@
 package controllers
 
 import (
-	"database/sql"
 	models "forum/model"
 	"log"
 	"net/http"
 )
 
-func CategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func CategoryHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/postcategory" { // Si l'URL n'est pas la bonne
-		NotFound(w, r, http.StatusNotFound, db) // On appelle notre fonction NotFound
-		return                                  // Et on arrête notre code ici !
+		NotFound(w, r, http.StatusNotFound) // On appelle notre fonction NotFound
+		return                              // Et on arrête notre code ici !
 	}
 	titleInput := r.FormValue("titleInput")
 	descriptionInput := r.FormValue("descriptionInput")
@@ -22,7 +21,7 @@ func CategoryHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		path = "./Assets/img/categories.png"
 	}
 
-	_, err := db.Exec("INSERT INTO categories (title, description, image) VALUES (?, ?, ?)", titleInput, descriptionInput, path)
+	_, err := models.DB.Exec("INSERT INTO categories (title, description, image) VALUES (?, ?, ?)", titleInput, descriptionInput, path)
 	if err != nil {
 		http.Error(w, "Erreur lors de la publication de la catégorie", http.StatusInternalServerError)
 		log.Println(err)

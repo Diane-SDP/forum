@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOC</title>
     <link href="/Assets/css/topic.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Assets/img/burn.png">
 </head>
 <body>
     <div class="header">
@@ -42,7 +43,7 @@
         
         <ul class="content-categories" id="itemList">
             {{ range .Categories }}
-            <li><a href="/topic/{{.Id}}" class="categories"><img src="../Assets/img/categories.png">{{ .Title }}</a></li>
+            <li><a href="/topic/{{.Id}}" class="categories"><img src=".{{.Image}}">{{ .Title }}</a></li>
             {{ end }}
         </ul>
 
@@ -65,12 +66,12 @@
         <section id="{{.Id}}">
         <div class="post">
             <div class="header-post">
-                <div class="user">
+                <a class="user" href="/profil/{{.User.Id}}">
                     <div class="container-profil-img-post">
                         <img src=".{{.User.Image}}">
                     </div>
                     <p>{{.User.Pseudo}}</p>
-                </div>
+                </a>
                 <div class="more-post">
                     <h3><a href="/topic/{{.Category.Id}}">{{ .Category.Title}}</a></h3>
                     {{if .IsMine}}
@@ -85,7 +86,7 @@
             </div>
             <div class="footer-post">
                 <div class="com-post">
-                    <a><img src="../Assets/img/Rectangle 14.png"></a>
+                    <a href="/commentaire/{{.Id}}"><img src="../Assets/img/Rectangle 14.png"></a>
                     <p>{{.Comment}}</p>
                 </div>
                 <div class="like-post">
